@@ -1,0 +1,102 @@
+.section {
+    display: flex;
+}
+
+.leftPage {
+    background-color: rgb(36, 94, 113);
+    display: block;
+    color: white;
+    width: 30%;
+    margin-right: 3rem;
+    margin-left: 10rem;
+}
+
+.leftPage h3 {
+    cursor: pointer;
+    margin-left: 1.3rem;
+}
+
+#heading1 {
+    font-style: italic;
+    color: yellow;
+}
+
+.rightPage {
+    color: white;
+    width: 70%;
+}
+
+.rightPageContent {
+    border-radius: 15px;
+    width: 70%;
+    background-color: white;
+    color: black;
+}
+
+
+/* Standartmässig */
+
+#guthaben,
+#kaeufe {
+    display: none;
+}
+
+.uebersicht {
+    margin: 2rem;
+    margin-top: 2rem;
+}
+
+
+/* Käufe */
+
+.gameRow {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.noData {
+    margin-left: 2rem;
+    color: red;
+}
+
+.game img {
+    width: 50%;
+}
+
+.game {
+    width: 30%;
+    margin: 2rem;
+    display: inline-block;
+}
+
+
+/* Game informations and informations about Konto */
+
+.formatter {
+    display: flex;
+    margin: 0;
+}
+
+
+/* Bearbeiten Knopf */
+
+.edit {
+    background-color: white;
+    /* Green */
+    border: 2px solid green;
+    color: green;
+    padding: 8px 16px;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 2rem;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.edit:hover {
+    background-color: green;
+    color: white;
+}
