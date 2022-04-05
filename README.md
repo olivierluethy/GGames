@@ -36,7 +36,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
 In the company I worked together with another colleague on a large project. It was a web based software. To realize this project we used the languages PHP and JavaScript. For the database we used MySQL. 
 During the development of the software I was fascinated by what you can develop with PHP and MySQL. 
 
@@ -53,11 +52,10 @@ After that I decided to continue working on my game store, which was a dream for
 
 It took me quite a long time to program everything perfectly. About 1 to 2 weeks. When I finished a big part of the project, I spent hours fixing the bugs, except for buying games. After about 4 hours I was finally able to finish it and I was so extremely happy to finish something I had worked on for so long.
 
-The logo is made by Nicola Rubin
+The logo was made by Nicola Rubin
 
 <!-- INSTALLATION -->
 ## Installation Guide
-
 1. At first you need to install git on your local computer. For that you need to go to this [website](https://git-scm.com/downloads).
 2. Go to your windows explorer and search for a good place for storing this project
 3. Now right click on your folder or place and then click on "Git Bash Here"
@@ -65,3 +63,10 @@ The logo is made by Nicola Rubin
    ```sh
    git clone http://192.168.100.57:3000/Olivier_Luethy/GGames.git
    ```
+<!-- Websites that helped me -->
+## Websites that helped me
+Issue 1: How to create a parallax scrolling effect? (Benjamin from the company said that I could try to do and implement that on the home page)<br>
+Link: https://www.digitalocean.com/community/tutorials/css-pure-css-parallax-de
+
+Issue 2: How to create a login system?<br>
+Link: https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php
