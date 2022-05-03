@@ -95,13 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>GGames - Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="shortcut icon" href="../images/shortcut2.jpg">
+    <link rel="shortcut icon" href="assets/shortcut2.jpg">
     <meta name="author" content="Olivier Luethy">
-    <link rel="stylesheet" href="../public/css/login.css">
+    <link rel="stylesheet" href="public/style/login.css">
 </head>
 
 <body>
@@ -113,12 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                 <label>Email</label>
                 <input type="text" name="email" class="form-control">
-                <span style='color: red; font-weight:bold;'; class="help-block"><?php echo $email_err; ?></span>
+                <span style='color: red; font-weight:bold;' ; class="help-block"><?php echo $email_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control">
-                <span style='color: red; font-weight:bold;'; class="help-block"><?php echo $password_err; ?></span>
+                <span style='color: red; font-weight:bold;' ; class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>

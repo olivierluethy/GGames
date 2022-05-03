@@ -94,62 +94,64 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($link);
 }
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>GGames - Sign Up</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="shortcut icon" href="../images/shortcut2.jpg">
+    <link rel="shortcut icon" href="assets/shortcut2.jpg">
     <meta name="author" content="Olivier Luethy">
     <style>
-        @keyframes bgcolor {
-    0% {
-        background-color: #45a3e5
+    @keyframes bgcolor {
+        0% {
+            background-color: #45a3e5
+        }
+
+        30% {
+            background-color: #66bf39
+        }
+
+        60% {
+            background-color: #eb670f
+        }
+
+        90% {
+            background-color: #f35
+        }
+
+        100% {
+            background-color: #864cbf
+        }
     }
 
-    30% {
-        background-color: #66bf39
+    body {
+        -webkit-animation: bgcolor 20s infinite;
+        animation: bgcolor 10s infinite;
+        -webkit-animation-direction: alternate;
+        animation-direction: alternate;
     }
 
-    60% {
-        background-color: #eb670f
+    .wrapper {
+        width: 350px;
+        padding: 20px;
+        border: 2px solid hsl(197, 100%, 23%);
+        border-radius: 10px;
+        box-shadow: 2px 3px 5px gray;
+        background-color: white;
+        position: block;
+        margin-top: 11rem;
+        margin-left: auto;
+        margin-right: auto;
+        font: 14px sans-serif;
     }
-
-    90% {
-        background-color: #f35
-    }
-
-    100% {
-        background-color: #864cbf
-    }
-}
-
-body {
-    -webkit-animation: bgcolor 20s infinite;
-    animation: bgcolor 10s infinite;
-    -webkit-animation-direction: alternate;
-    animation-direction: alternate;
-}
-
-.wrapper {
-    width: 350px;
-    padding: 20px;
-    border: 2px solid hsl(197, 100%, 23%);
-    border-radius: 10px;
-    box-shadow: 2px 3px 5px gray;
-    background-color: white;
-    position: block;
-    margin-top: 11rem;
-    margin-left: auto;
-    margin-right: auto;
-    font: 14px sans-serif;
-}
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <h2>Sign Up</h2>
@@ -157,17 +159,23 @@ body {
         <form action="register" method="post">
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                <input type="text" name="email"
+                    class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>"
+                    value="<?php echo $email; ?>">
                 <span class="invalid-feedback"><?php echo $email_err; ?></span>
-            </div>    
+            </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                <input type="password" name="password"
+                    class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>"
+                    value="<?php echo $password; ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+                <input type="password" name="confirm_password"
+                    class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>"
+                    value="<?php echo $confirm_password; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
@@ -176,6 +184,7 @@ body {
             </div>
             <p>Already have an account? <a href="login">Login here</a>.</p>
         </form>
-    </div>    
+    </div>
 </body>
+
 </html>

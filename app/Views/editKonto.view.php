@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Konto bearbeiten</title>
-    <link rel="shortcut icon" href="../images/shortcut2.jpg">
-    <link rel="stylesheet" href="../public/css/editPage.css">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="public/style/editPage.css">
     <meta name="author" content="Olivier Luethy">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,9 +23,15 @@
         <label for="username">Username:</label><br>
         <input type="text" name="username" id="username" value="<?= $konto[0][3] ?>"><br><br>
 
-        <button type="submit" name="form-submit"><i class='fas fa-edit'></i> Konto bearbeiten</button>
+        <label for="passwort">Passwort:</label><br>
+        <input type="password" name="passwort" id="passwort"><br><br>
+
+        <label for="passwort_again">Passwort bestätigen:</label><br>
+        <input type="password" name="passwort_again" id="passwort_again"><br><br>
+
+        <button type="submit" name="form-submit"><i class='fas fa-edit'></i> Konto bearbeiten</button> 
     </form>
-    <script src="../public/js/clientSideValidationKonto.js"></script>
+    <script src="public/js/clientSideValidationKonto.js"></script>
 </body>
 
 </html>

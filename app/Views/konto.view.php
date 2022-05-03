@@ -8,70 +8,29 @@ foreach($kaeufe as $kaeufen){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/general.css">
-    <link rel="stylesheet" href="../public/css/konto.css">
-    <link rel="stylesheet" href="../public/css/navigation.css">
+    <link rel="stylesheet" href="public/style/general.css">
+    <link rel="stylesheet" href="public/style/konto.css">
+    <link rel="stylesheet" href="public/style/navigation.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="shortcut icon" href="assets/favicon.ico">
 
     <!-- Font Family -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>GGames - Konto</title>
 </head>
+
 <body>
-    <nav>
-        <div class="title">
-            <a href="konto">
-                <h1>G</h1>
-                <h1>G</h1>
-                <h1>A</h1>
-                <h1>M</h1>
-                <h1>E</h1>
-                <h1>S</h1>
-            </a>
-        </div>
 
-        <div class="anchors">
-            <a class="anchors_a" href="home">Home</a>
-            <a class="anchors_a" href="store">Shop</a>
-
-            <?php
-            if(isset($_SESSION['loggedin']) == true){
-                echo "<div class='dropdown'>
-                <button style='font-size: 16px; color: white; cursor: pointer; border: none; outline: none; padding: 14px 16px; background-color: inherit; font-family: inherit; margin: 0;'> ";
-                    if (empty($_SESSION['username'])) {
-                        echo "<i class='fa fa-user' aria-hidden='true'></i>&nbsp Name
-                        </button> <div style='min-width: 220px;' class='dropdown-content'>
-                        <a href='konto'><i class='fas fa-user-circle'></i> Konto</a>
-                        <a href='logout'><i class='fas fa-sign-out-alt'></i> Logout</a>
-                        </div>
-                </div>";
-                    } else {
-                        echo "<i class='fa fa-user' aria-hidden='true'></i>", "&nbsp&nbsp", $_SESSION['username'];
-                        echo "</button> <div style='min-width: 160px;' class='dropdown-content'>
-                        <a href='konto'><i class='fas fa-user-circle'></i> Konto</a>
-                        <a href='logout'><i class='fas fa-sign-out-alt'></i> Logout</a>
-                        </div>
-                </div>";
-                }
-            }else{
-                echo "<div class='dropdown'>
-                    <button style='font-size: 16px; color: white; cursor: pointer; border: none; outline: none; padding: 14px 16px; background-color: inherit; font-family: inherit; margin: 0;'>
-                    <i class='fa fa-user' aria-hidden='true'></i>&nbsp Nicht angemeldet
-                    </button> <div style='min-width: 220px;' class='dropdown-content'>
-                    <a href='login'><i class='fas fa-sign-in-alt'></i> Einloggen</a>
-                    </div>
-                </div>";   
-            }
-            ?>
-        </div>
-    </nav>
+    <?php
+include("nav.view.php");
+?>
 
     <h1>Konto</h1>
 
@@ -174,7 +133,8 @@ foreach($kaeufe as $kaeufen){
             </div>
         </div>
     </div>
-    
-    <script src="../public/js/konto.js"></script>
+
+    <script src="public/js/konto.js"></script>
 </body>
+
 </html>

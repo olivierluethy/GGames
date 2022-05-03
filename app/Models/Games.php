@@ -8,6 +8,40 @@ class Games
 		$this->db = connectDatabase();
 	}
 
+	/* Alle Spiele anzeigen */
+	public function getAllGames(){
+		$statement = $this->db->prepare("SELECT * FROM video_game");
+        $statement->execute();
+        return $statement;
+	}
+
+	/* Alle gekauften Spiele anzeigen */
+	public function getAllBoughtGames(){
+		$statement = $this->db->prepare("SELECT video_game.name, video_game.id, video_game.entwickler, video_game.img, video_game.price FROM video_game
+INNER JOIN kaeufe ON kaeufe.fk_video_gameId = video_game.id
+INNER JOIN users ON users.id = kaeufe.fk_usersId WHERE users.id = :id");
+        $statement->bindParam(':id', $_SESSION['id']);
+        $statement->execute();
+		return $statement;
+	}
+	
+	/* Alle nicht gekauften Spiele anzeigen */
+	public function getNotBoughtGames(){
+		$statement = $this->db->prepare("SELECT video_game.id, video_game.name, video_game.entwickler, video_game.img, video_game.price FROM video_game
+WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeufe.fk_usersId = :id)");
+        $statement->bindParam(':id', $_SESSION['id']);
+        $statement->execute();
+		return $statement;
+	}
+
+	/* Alle Informationen des Nutzers holen */
+	public function getAllDataFromUser(){
+		$statement = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $statement->bindParam(':email', $_SESSION['email']);
+        $statement->execute();
+		return $statement;
+	}
+
 	/* Spiel hinzufügen */
 	public function createGame($name, $entwickler, $img, $price){
 		$statement = $this->db->prepare("INSERT INTO `video_game` (name, entwickler, img, price) VALUES (:name, :entwickler, :img, :price)");

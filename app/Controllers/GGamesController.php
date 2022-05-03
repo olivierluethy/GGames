@@ -1,6 +1,6 @@
 <?php
 
-class WelcomeController
+class GGamesController
 {
     /* Die Welcome Seite oder Startseite */
 	public function index()
@@ -12,36 +12,23 @@ class WelcomeController
 
     /* Der Shop */
 	public function store(){
-		session_start();
+
+        $games = new Games();
+
+        // Initialize the session
+        session_start();
 
         /* Alle Spiele */
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $statement = $pdo->prepare("SELECT * FROM video_game");
-        $statement->execute();
-        $games = $statement->fetchAll();
-
+        $getAllGames = $games -> getAllGames();
+        $getAllGames = $getAllGames -> fetchAll(); 
+        
 		/* Gekaufte Spiele */
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $statement = $pdo->prepare("SELECT video_game.name, video_game.id, video_game.entwickler, video_game.img, video_game.price FROM video_game
-INNER JOIN kaeufe ON kaeufe.fk_video_gameId = video_game.id
-INNER JOIN users ON users.id = kaeufe.fk_usersId WHERE users.id = :id");
-        $statement->bindParam(':id', $_SESSION['id']);
-        $statement->execute();
-        $gamesBought = $statement->fetchAll();
+        $getAllBoughtGames = $games -> getAllBoughtGames();
+        $getAllBoughtGames = $getAllBoughtGames -> fetchAll();
 
         /* Nicht Gekaufte Spiele */
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $statement = $pdo->prepare("SELECT video_game.id, video_game.name, video_game.entwickler, video_game.img, video_game.price FROM video_game
-WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeufe.fk_usersId = :id)");
-        $statement->bindParam(':id', $_SESSION['id']);
-        $statement->execute();
-        $gamesNotBought = $statement->fetchAll();
+        $getAllNotBoughtGames = $games -> getNotBoughtGames();
+        $getAllNotBoughtGames = $getAllNotBoughtGames -> fetchAll();
 
 		require 'app/Views/store.view.php';
 	}
@@ -66,7 +53,7 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
 
             $games->createGame($name, $entwickler, $img, $price);
 
-            header('Location: http://localhost/GGames/shop/store');
+            header('Location: http://localhost/GGames/store');
         }
     }
 
@@ -85,7 +72,7 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
 
         $games->removeGame($id);
         
-        header('Location: http://localhost/GGames/shop/store');
+        header('Location: http://localhost/GGames/store');
 
         require 'app/Views/store.view.php';
     }
@@ -99,10 +86,6 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
         
         $id = $_GET['id'];
 
-        $title = '';
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $entwickler = $_POST['entwickler'];
@@ -111,7 +94,7 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
 
             $games->changeGame($name, $entwickler, $img, $price, $id);
 
-            header('Location: http://localhost/GGames/shop/store');
+            header('Location: http://localhost/GGames/store');
         }else{
             $statement = $pdo->prepare('SELECT * FROM video_game WHERE id = :id');
             $statement->bindParam(':id', $id);
@@ -130,39 +113,26 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
 
         $id = $_GET['id'];
 
-        $title = '';
-        $pdo = connectDatabase();
-
         $games->getGame($_SESSION['id'], $id);
 
-        header('Location: http://localhost/GGames/shop/store');
+        header('Location: http://localhost/GGames/store');
     
         require 'app/Views/store.view.php';
     }
 
     public function konto(){
+        $games = new Games();
+
+        // Initialize the session
         session_start();
 
-		/* Alle Spiele */
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-        $statement->bindParam(':email', $_SESSION['email']);
-        $statement->execute();
-        $konto = $statement->fetchAll();
+		/* Alle Informationen des Nutzers holen */
+        $konto = $games -> getAllDataFromUser();
+        $konto = $konto -> fetchAll();
 
         /* Spiele gekauft */
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $statement = $pdo->prepare("SELECT video_game.name, video_game.entwickler, video_game.img, video_game.price FROM video_game
-INNER JOIN kaeufe ON kaeufe.fk_video_gameId = video_game.id
-INNER JOIN users ON users.id = kaeufe.fk_usersId WHERE users.id = :fk_usersId");
-        $statement->bindParam(':fk_usersId', $_SESSION['id']);
-        $statement->execute();
-        $kaeufe = $statement->fetchAll();
-
+        $kaeufe = $games -> getAllBoughtGames();
+        $kaeufe = $kaeufe -> fetchAll();
 
 		require 'app/Views/konto.view.php';
     }
@@ -175,22 +145,17 @@ INNER JOIN users ON users.id = kaeufe.fk_usersId WHERE users.id = :fk_usersId");
         
         $id = $_GET['id'];
 
-        $title = '';
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email= $_POST['email'];
             $username = $_POST['username'];
 
             $games->changeKonto($email, $username, $id);
 
-            header('Location: http://localhost/GGames/shop/logout');
+            header('Location: http://localhost/GGames/logout');
         }else{
-            $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
-            $statement->bindParam(':id', $id);
-            $statement->execute();
-            $konto = $statement->fetchAll();
+
+            $konto = $games -> getAllDataFromUser();
+            $konto = $konto -> fetchAll();
         }
         require 'app/Views/editKonto.view.php';
     }
@@ -211,4 +176,3 @@ INNER JOIN users ON users.id = kaeufe.fk_usersId WHERE users.id = :fk_usersId");
         require 'app/Views/register.view.php';
     }
 }
-

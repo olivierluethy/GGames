@@ -1,0 +1,98 @@
+/* Navigation Bar */
+nav {
+  width: 100%;
+  display: flex;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  color: white;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgb(2, 0, 36) 0%, rgb(9, 9, 121) 50%, rgb(0, 212, 255) 100%);
+  box-shadow: 2px 3px 5px grey;
+  z-index: 2;
+}
+nav .title {
+  margin-left: 2rem;
+}
+nav .title a {
+  text-decoration: none;
+  display: flex;
+}
+nav .title h1:nth-child(1) {
+  color: orange;
+  margin-right: 0.1rem;
+}
+nav .title h1:nth-child(2) {
+  color: orange;
+  margin-right: 0.1rem;
+}
+nav .title h1:nth-child(3) {
+  color: #087ca7;
+  margin-right: 0.1rem;
+}
+nav .title h1:nth-child(4) {
+  color: #087ca7;
+  margin-right: 0.1rem;
+}
+nav .title h1:nth-child(5) {
+  color: #087ca7;
+  margin-right: 0.1rem;
+}
+nav .title h1:nth-child(6) {
+  color: #087ca7;
+  margin-right: 0.1rem;
+}
+nav .anchors {
+  margin-top: 0.74rem;
+  margin-left: 80rem;
+}
+nav .anchors .anchors_a_active {
+  text-decoration: none;
+  color: orange;
+  margin-left: 4rem;
+}
+nav .anchors .anchors_a {
+  text-decoration: none;
+  color: white;
+  margin-left: 4rem;
+}
+nav .anchors .anchors_a:hover {
+  font-style: italic;
+}
+nav .anchors .dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 2rem;
+  cursor: pointer;
+}
+nav .anchors .dropdown .buttonText {
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+nav .anchors .dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+nav .anchors .dropdown .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+nav .anchors .dropdown .dropdown-content:hover {
+  background-color: #f1f1f1;
+}
+nav .anchors .dropdown:hover .dropdown-content {
+  display: block;
+}/*# sourceMappingURL=navigation.css.map */

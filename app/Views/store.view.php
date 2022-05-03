@@ -1,85 +1,44 @@
 <?php
 $dataCounter = 0;
 
-foreach($games as $game){
+foreach($getAllGames as $game){
     $dataCounter++;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/navigation.css">
-    <link rel="stylesheet" href="../public/css/general.css">
-    <link rel="stylesheet" href="../public/css/shop.css">
+    <link rel="stylesheet" href="public/style/navigation.css">
+    <link rel="stylesheet" href="public/style/general.css">
+    <link rel="stylesheet" href="public/style/shop.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <!-- Font Family -->
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+
+    <!-- Importing font-family from google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
-    <title>Store</title>
+    <title>GGames - Store</title>
 </head>
+
 <body>
-    <nav>
-        <div class="title">
-            <a href="store">
-                <h1>G</h1>
-                <h1>G</h1>
-                <h1>A</h1>
-                <h1>M</h1>
-                <h1>E</h1>
-                <h1>S</h1>
-            </a>
-        </div>
 
-        <div class="anchors">
-            <a class="anchors_a" href="home">Home</a>
-            <a class="anchors_a_active" href="store">Shop</a>
-
-            <?php
-            if(isset($_SESSION['loggedin']) == true){
-                echo "<div class='dropdown'>
-                <button class='buttonText'>";
-                    if (empty($_SESSION['username'])) {
-                        echo "<i class='fa fa-user' aria-hidden='true'></i>&nbsp Name
-                        </button> <div style='min-width: 220px;' class='dropdown-content'>
-                        <a href='konto'><i class='fas fa-user-circle'></i> Konto</a>
-                        <a href='logout'><i class='fas fa-sign-out-alt'></i> Logout</a>
-                        </div>
-                </div>";
-                    } else {
-                        echo "<i class='fa fa-user' aria-hidden='true'></i>", "&nbsp&nbsp", $_SESSION['username'];
-                        echo "</button> <div style='min-width: 160px;' class='dropdown-content'>
-                        <a href='konto'><i class='fas fa-user-circle'></i> Konto</a>
-                        <a href='logout'><i class='fas fa-sign-out-alt'></i> Logout</a>
-                        </div>
-                </div>";
-                }
-            }else{
-                echo "<div class='dropdown'>
-                    <button class='buttonText'>
-                    <i class='fa fa-user' aria-hidden='true'></i>&nbsp Nicht angemeldet
-                    </button> <div style='min-width: 220px;' class='dropdown-content'>
-                    <a href='login'><i class='fas fa-sign-in-alt'></i> Einloggen</a>
-                    </div>
-                </div>";   
-            }
-            ?>
-        </div>
-    </nav>
-<main>
-
-<?php
+    <?php
+include("nav.view.php");
+?>
+    <main>
+        <?php
 if($dataCounter > 0){
     echo "<h1>New Games</h1>";
 
     echo "<div class='gameRow'>";
 
-    foreach ($gamesBought as $gamesBoughts){
+    foreach ($getAllBoughtGames as $gamesBoughts){
         echo "<div class='game'>
                 <img src='../images/" . $gamesBoughts['img'] . "' alt=''>";
                 echo "<div class='desc'>";
@@ -92,7 +51,7 @@ if($dataCounter > 0){
                         echo "<p>Preis: " . $gamesBoughts['price'] . "</p>";
                     }
                 echo "</div>";
-            echo "<button class='bought'>Gekauft</button>";
+            echo "<button class='bought'><i class='fas fa-check'></i> Gekauft</button>";
             if (isset($_SESSION['istAdmin']) && isset($_SESSION['email']) && $_SESSION['istAdmin'] == "1" && $_SESSION['email'] != "") {
                 echo "<button title='Spiel bearbeiten' class='edit' onclick='editGame(" . $gamesBoughts['id'] . ")'><i class='fas fa-edit'></i> Bearbeiten</button>";
                 echo "<button title='Spiel löschen' class='delete' onclick='deleteGame(" . $gamesBoughts['id'] . ")'><i class='fas fa-trash-alt'></i> Löschen</button>";
@@ -100,9 +59,9 @@ if($dataCounter > 0){
         echo "</div>";
     }
 
-    foreach ($gamesNotBought as $gamesNotBoughts){
+    foreach ($getAllNotBoughtGames as $gamesNotBoughts){
         echo "<div class='game'>
-                <img src='../images/" . $gamesNotBoughts['img'] . "' alt=''>";
+                <img src='assets/" . $gamesNotBoughts['img'] . "' alt=''>";
                 echo "<div class='desc'>";
                     echo "<p>Name: " . $gamesNotBoughts['name'] . "</p>";
                     echo "<p>Entwickler: " . $gamesNotBoughts['entwickler'] . "</p>";
@@ -143,10 +102,11 @@ if($dataCounter > 0){
         }
     echo "</div>";
 }?>
-</div>
+        </div>
 
-<script src="../public/js/store.js"></script>
+        <script src="public/js/store.js"></script>
 
-</main>
+    </main>
 </body>
+
 </html>

@@ -3,26 +3,27 @@ require 'core/bootstrap.php';
 
 $routes = [
 	/* Hauptseiten */
-	'/shop/home' => 'WelcomeController@index',
-	'/shop/store' => 'WelcomeController@store',
+	'' => 'GGamesController@index',
+	'home' => 'GGamesController@index',
+	'store' => 'GGamesController@store',
 
 	/* Spiele bearbeiten */
-	'/shop/addGame' => 'WelcomeController@addGame',
-	'/shop/deleteGame' => 'WelcomeController@deleteGame',
-	'/shop/editGame' => 'WelcomeController@editGame',
+	'addGame' => 'GGamesController@addGame',
+	'deleteGame' => 'GGamesController@deleteGame',
+	'editGame' => 'GGamesController@editGame',
 
 	/* Login */
-	'/shop/login' => 'WelcomeController@login',
-	'/shop/config' => 'WelcomeController@config',
-	'/shop/register' => 'WelcomeController@register',
-	'/shop/logout' => 'WelcomeController@logout',
+	'login' => 'GGamesController@login',
+	'config' => 'GGamesController@config',
+	'register' => 'GGamesController@register',
+	'logout' => 'GGamesController@logout',
 
 	/* Spiel kaufen */
-	'/shop/buyGame' => 'WelcomeController@buyGame',
+	'buyGame' => 'GGamesController@buyGame',
 
 	/* Konto */
-	'/shop/konto' => 'WelcomeController@konto',
-	'/shop/editKonto' => 'WelcomeController@editKonto',
+	'konto' => 'GGamesController@konto',
+	'editKonto' => 'GGamesController@editKonto',
 ];
 
 $db = [
