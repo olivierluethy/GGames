@@ -1,102 +1,123 @@
 .section {
-    display: flex;
+  display: flex;
 }
-
-.leftPage {
-    background-color: rgb(36, 94, 113);
-    display: block;
-    color: white;
-    width: 30%;
-    margin-right: 3rem;
-    margin-left: 10rem;
+.section .leftPage {
+  background-color: rgb(36, 94, 113);
+  border-radius: 15px;
+  display: block;
+  color: white;
+  width: 30%;
+  margin-right: 3rem;
+  margin-left: 10rem;
 }
-
-.leftPage h3 {
-    cursor: pointer;
-    margin-left: 1.3rem;
+.section .leftPage h3 {
+  cursor: pointer;
+  margin-left: 1.3rem;
 }
-
-#heading1 {
-    font-style: italic;
-    color: yellow;
+.section .leftPage h3:nth-child(1) {
+  font-style: italic;
+  color: yellow;
 }
-
-.rightPage {
-    color: white;
-    width: 70%;
+.section .rightPage {
+  color: white;
+  width: 70%;
 }
-
-.rightPageContent {
-    border-radius: 15px;
-    width: 70%;
-    background-color: white;
-    color: black;
+.section .rightPage #konto .rightPageContent {
+  border-radius: 15px;
+  width: 70%;
+  background-color: white;
+  color: black;
 }
-
-
-/* Standartmässig */
-
-#guthaben,
-#kaeufe {
-    display: none;
+.section .rightPage #konto .rightPageContent .uebersicht {
+  margin: 2rem;
+  margin-top: 2rem;
 }
-
-.uebersicht {
-    margin: 2rem;
-    margin-top: 2rem;
+.section .rightPage #konto .rightPageContent .uebersicht .formatter {
+  display: flex;
+  margin: 0;
 }
-
-
-/* Käufe */
-
-.gameRow {
-    display: flex;
-    flex-wrap: wrap;
+.section .rightPage #konto .rightPageContent .uebersicht .edit {
+  background-color: white;
+  border: 2px solid green;
+  color: green;
+  padding: 8px 16px;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 2rem;
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
-
-.noData {
-    margin-left: 2rem;
-    color: red;
+.section .rightPage #konto .rightPageContent .uebersicht .edit:hover {
+  background-color: green;
+  color: white;
 }
-
-.game img {
-    width: 50%;
+.section .rightPage #guthaben {
+  display: none;
 }
-
-.game {
-    width: 30%;
-    margin: 2rem;
-    display: inline-block;
+.section .rightPage #guthaben .rightPageContent {
+  border-radius: 15px;
+  width: 70%;
+  background-color: white;
+  color: black;
 }
-
-
-/* Game informations and informations about Konto */
-
-.formatter {
-    display: flex;
-    margin: 0;
+.section .rightPage #guthaben .rightPageContent .uebersicht {
+  margin: 2rem;
+  margin-top: 2rem;
 }
-
-
-/* Bearbeiten Knopf */
-
-.edit {
-    background-color: white;
-    /* Green */
-    border: 2px solid green;
-    color: green;
-    padding: 8px 16px;
-    text-align: center;
-    margin-bottom: 1rem;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-right: 2rem;
-    transition-duration: 0.4s;
-    cursor: pointer;
+.section .rightPage #kaeufe {
+  display: none;
 }
-
-.edit:hover {
-    background-color: green;
-    color: white;
+.section .rightPage #kaeufe .rightPageContent {
+  border-radius: 15px;
+  width: 70%;
+  background-color: white;
+  color: black;
 }
+.section .rightPage #kaeufe .rightPageContent .gameRow {
+  display: flex;
+  flex-wrap: wrap;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game {
+  width: 50%;
+  margin: 2rem;
+  display: inline-block;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 205px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .dropdown .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .dropdown .dropdown-content a:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .dropdown:hover .dropdown-content {
+  display: block;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game img {
+  width: 50%;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .game .formatter {
+  display: flex;
+  margin: 0;
+}
+.section .rightPage #kaeufe .rightPageContent .gameRow .noData {
+  margin-left: 2rem;
+  color: red;
+}/*# sourceMappingURL=konto.css.map */

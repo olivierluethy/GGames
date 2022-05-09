@@ -1,3 +1,4 @@
+/* To switch between the different pages */
 function openGuthaben() {
     document.getElementById("konto").style = "display: none";
     document.getElementById("kaeufe").style = "display: none";
@@ -30,4 +31,8 @@ function openKonto() {
 
 function editKonto(id) {
     location.href = "editKonto?id=" + id;
+}
+
+function returnGame(id) {
+    location.href = "returnGame?id=" + id;
 }

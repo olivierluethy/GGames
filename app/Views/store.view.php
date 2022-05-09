@@ -40,7 +40,7 @@ if($dataCounter > 0){
 
     foreach ($getAllBoughtGames as $gamesBoughts){
         echo "<div class='game'>
-                <img src='../images/" . $gamesBoughts['img'] . "' alt=''>";
+                <img src='assets/" . $gamesBoughts['img'] . "' alt=''>";
                 echo "<div class='desc'>";
                     echo "<p>Name: " . $gamesBoughts['name'] . "</p>";
                     echo "<p>Entwickler: " . $gamesBoughts['entwickler'] . "</p>";

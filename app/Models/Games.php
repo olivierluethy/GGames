@@ -90,4 +90,12 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
 		$statement->bindParam(':id', $id);
 		$statement->execute();
 	}
+
+	/* Gekauftes Spiel zurückgeben */
+	public function returnGame($spielId, $userId){
+		$statement = $this->db->prepare("DELETE FROM `kaeufe` WHERE fk_usersId = :userId AND fk_video_gameId = :gameId");
+        $statement->bindParam(':userId', $userId, PDO::PARAM_STR);
+        $statement->bindParam(':gameId', $spielId, PDO::PARAM_STR);
+        $statement->execute();
+	}
 }

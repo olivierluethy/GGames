@@ -90,7 +90,7 @@ nav .anchors .dropdown .dropdown-content a {
   text-decoration: none;
   display: block;
 }
-nav .anchors .dropdown .dropdown-content:hover {
+nav .anchors .dropdown .dropdown-content a:hover {
   background-color: #f1f1f1;
 }
 nav .anchors .dropdown:hover .dropdown-content {

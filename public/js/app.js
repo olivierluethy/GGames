@@ -1,6 +1,3 @@
-// Javascript
-console.info('JS geladen.');
-
 /* Parralax scroll */
 $(window).scroll(function () {
 

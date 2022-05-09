@@ -160,6 +160,19 @@ class GGamesController
         require 'app/Views/editKonto.view.php';
     }
 
+    public function returnGame(){
+        $games = new Games();
+
+        // Initialize the session
+        session_start();
+        
+        $id = $_GET['id'];
+
+        $games->returnGame($id, $_SESSION["id"]);
+
+        header('Location: http://localhost/GGames/konto');
+    }
+
 	public function login(){
         require 'app/Views/login.view.php';
     }

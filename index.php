@@ -21,6 +21,9 @@ $routes = [
 	/* Spiel kaufen */
 	'buyGame' => 'GGamesController@buyGame',
 
+	/* Spiel zurückgeben */
+	'returnGame' => 'GGamesController@returnGame',
+
 	/* Konto */
 	'konto' => 'GGamesController@konto',
 	'editKonto' => 'GGamesController@editKonto',

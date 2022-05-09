@@ -99,7 +99,14 @@ include("nav.view.php");
                         if($dataCounter > 0){
                             foreach($kaeufe as $kaeufen){
                                 echo "<div class='game'>
-                                    <img src='../images/" . $kaeufen['img'] . "' alt=''>";
+                                    <div class='dropdown'>
+                                        <i class='fa fa-ellipsis-h' style='font-size:24px; cursor: pointer;'></i>
+                                        <div class='dropdown-content'>
+                                            <a href='#'><i class='fa fa-download' style='font-size:20px'></i>&nbsp&nbspDownload</a>
+                                            <a onclick='returnGame(" . $kaeufen['id'] . ")'><i class='fa fa-undo' style='font-size:20px'></i>&nbsp&nbspSpiel zurückgeben</a>
+                                        </div>
+                                    </div><br><br>
+                                    <img src='assets/" . $kaeufen['img'] . "' alt=''>";
                                     echo "<div class='desc'>";
                                         echo "<div class='formatter'>";
                                             echo "<p>Name: </p>";

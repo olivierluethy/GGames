@@ -1,3 +1,4 @@
+/* To switch the pages */
 function addGame() {
     location.href = "addGame";
 }

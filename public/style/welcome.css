@@ -1,3 +1,4 @@
+/* For parallax scroll */
 .parallax-image {
   padding-top: 50%;
   position: relative;
@@ -36,8 +37,5 @@
 main {
   background-color: black;
   color: white;
-}
-
-main {
   padding: 100px 20px;
 }/*# sourceMappingURL=welcome.css.map */
