@@ -98,4 +98,12 @@ WHERE video_game.id NOT IN (SELECT kaeufe.fk_video_gameId FROM kaeufe WHERE kaeu
         $statement->bindParam(':gameId', $spielId, PDO::PARAM_STR);
         $statement->execute();
 	}
+
+	/* Get Password for Account Update */
+	public function GetPassword(){
+		$statement = $this->db->prepare("SELECT password FROM users WHERE email = :email");
+        $statement->bindParam(':email', $_SESSION['email']);
+        $statement->execute();
+		return $statement;
+	}
 }

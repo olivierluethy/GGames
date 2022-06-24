@@ -120,6 +120,7 @@ class GGamesController
         require 'app/Views/store.view.php';
     }
 
+    /* Kontodaten anzeigen */
     public function konto(){
         $games = new Games();
 
@@ -137,6 +138,7 @@ class GGamesController
 		require 'app/Views/konto.view.php';
     }
 
+    /* Konto bearbeiten */
     public function editKonto(){
         $games = new Games();
 
@@ -148,10 +150,20 @@ class GGamesController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email= $_POST['email'];
             $username = $_POST['username'];
+            $passwort = $_POST['passwort'];
 
-            $games->changeKonto($email, $username, $id);
+            $Games = new Games();
 
-            header('Location: http://localhost/GGames/logout');
+			$password = $Games -> GetPassword();
+			$password = $password->fetchAll();
+
+            if (password_verify($passwort, $password[0][0])) {
+                $games->changeKonto($email, $username, $id);
+                header('Location: http://localhost/GGames/logout');
+            } else {
+                echo 'Invalid password.';
+                header('Location: http://localhost/GGames/');
+            }
         }else{
 
             $konto = $games -> getAllDataFromUser();
@@ -160,6 +172,7 @@ class GGamesController
         require 'app/Views/editKonto.view.php';
     }
 
+    /* Kauf wird gelöscht */
     public function returnGame(){
         $games = new Games();
 
@@ -173,18 +186,22 @@ class GGamesController
         header('Location: http://localhost/GGames/konto');
     }
 
+    /* Login Page */
 	public function login(){
         require 'app/Views/login.view.php';
     }
 
+    /* Logout */
     public function logout(){
         require 'app/Views/logout.php';
     }
 
+    /* Datenbankkonfigurationen für das Login und Register */
     public function config(){
         require 'app/Views/config.php';
     }
 
+    /* Register Page */
     public function register(){
         require 'app/Views/register.view.php';
     }

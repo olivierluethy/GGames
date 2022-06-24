@@ -18,17 +18,33 @@
 </head>
 
 <body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="title">
+            <a href="home">
+                <h1>G</h1>
+                <h1>G</h1>
+                <h1>A</h1>
+                <h1>M</h1>
+                <h1>E</h1>
+                <h1>S</h1>
+            </a>
+        </div>
 
-    <?php
-include("nav.view.php");
-?>
+        <div class="anchors">
+            <a class="anchors_a_active" href="home">Home</a>
+            <a class="anchors_a" href="store">Shop</a>
+            <?php
+                include("nav.view.php");
+            ?>
+        </div>
+    </nav>
 
-    <?php
-    echo "<section class='parallax-image'>
+    <!-- Parallax Scroll -->
+    <section class='parallax-image'>
         <img src='assets/welcome.jpg' />
         <h1>Welcome to GGAMES!</h1>
-            </section>";
-    ?>
+    </section>
 
     <main>
         <h1>About Us</h1>

@@ -1,20 +1,4 @@
-<nav>
-    <div class="title">
-        <a href="home">
-            <h1>G</h1>
-            <h1>G</h1>
-            <h1>A</h1>
-            <h1>M</h1>
-            <h1>E</h1>
-            <h1>S</h1>
-        </a>
-    </div>
-
-    <div class="anchors">
-        <a class="anchors_a" href="home">Home</a>
-        <a class="anchors_a" href="store">Shop</a>
-
-        <?php
+<?php
             if(isset($_SESSION['loggedin']) == true){
                 echo "<div class='dropdown'>
                 <button style='font-size: 16px; color: white; cursor: pointer; border: none; outline: none; padding: 14px 16px; background-color: inherit; font-family: inherit; margin: 0;'> ";
@@ -43,5 +27,3 @@
                 </div>";   
             }
             ?>
-    </div>
-</nav>

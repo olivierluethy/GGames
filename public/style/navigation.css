@@ -50,6 +50,8 @@ nav .anchors .anchors_a_active {
   text-decoration: none;
   color: orange;
   margin-left: 4rem;
+  font-style: italic;
+  font-weight: bold;
 }
 nav .anchors .anchors_a {
   text-decoration: none;

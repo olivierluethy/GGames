@@ -28,9 +28,27 @@ foreach($kaeufe as $kaeufen){
 
 <body>
 
-    <?php
-include("nav.view.php");
-?>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="title">
+            <a href="home">
+                <h1>G</h1>
+                <h1>G</h1>
+                <h1>A</h1>
+                <h1>M</h1>
+                <h1>E</h1>
+                <h1>S</h1>
+            </a>
+        </div>
+
+        <div class="anchors">
+            <a class="anchors_a" href="home">Home</a>
+            <a class="anchors_a" href="store">Shop</a>
+            <?php
+                include("nav.view.php");
+            ?>
+        </div>
+    </nav>
 
     <h1>Konto</h1>
 
@@ -48,27 +66,23 @@ include("nav.view.php");
                     <?php
                     echo "<div class='uebersicht'>";
                         foreach($konto as $konten){
-                            echo "<div class='formatter'>";
-                                echo "<p>Email: </p>";
-                                echo "<p style='font-weight: bold;'>&nbsp&nbsp" . $konten['email'] . "</p>";
-                            echo "</div>";
-                            echo "<div class='formatter'>";
-                                echo "<p>Passwort: </p>";
-                                echo "<p style='font-weight: bold;'>&nbsp&nbsp" . $konten['password'] . "</p>";
-                            echo "</div>";
-                            echo "<div class='formatter'>";
-                                echo "<p>Username: </p>";
+                            echo "<div class='formatter'>
+                                <p>Email: </p>
+                                <p style='font-weight: bold;'>&nbsp&nbsp" . $konten['email'] . "</p>
+                            </div>
+                            <div class='formatter'>
+                                <p>Username: </p>";
                                 if(empty($konten['username'])){
                                     echo "<p>&nbsp&nbsp Leer</p>";
                                 }else{
                                     echo "<p style='font-weight: bold;'>&nbsp&nbsp" . $konten['username'] . "</p>";
                                 }
-                            echo "</div>";
-                            echo "<div class='formatter'>";
-                                echo "<p>Das Konto wurde erstellt am: </p>";
-                                echo "<p style='font-weight: bold;'>&nbsp&nbsp" . $konten['created_at'] . "</p>";
-                            echo "</div>";
-                            echo "<button title='Konto bearbeiten' class='edit' onclick='editKonto(" . $konten['id'] . ")'><i class='fas fa-edit'></i> Bearbeiten</button>";
+                            echo "</div>
+                            <div class='formatter'>
+                                <p>Das Konto wurde erstellt am: </p>
+                                <p style='font-weight: bold;'>&nbsp&nbsp" . $konten['created_at'] . "</p>
+                            </div>
+                            <button title='Konto bearbeiten' class='edit' onclick='editKonto(" . $konten['id'] . ")'><i class='fas fa-edit'></i> Bearbeiten</button>";
                         }
                     echo "</div>";
                     ?>
