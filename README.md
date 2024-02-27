@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/olivierluethy/GGames.git">
-    <img src="assets/icon.ico" alt="Logo" width="80" height="80">
+    <img src="assets/favicon.ico" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">GGames</h3>
