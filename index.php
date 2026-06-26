@@ -11,6 +11,7 @@ $routes = [
 	'addGame' => 'GGamesController@addGame',
 	'deleteGame' => 'GGamesController@deleteGame',
 	'editGame' => 'GGamesController@editGame',
+	'gamedetail' => 'GGamesController@gameDetail',
 
 	/* Login */
 	'login' => 'GGamesController@login',

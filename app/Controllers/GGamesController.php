@@ -10,114 +10,150 @@ class GGamesController
 		require 'app/Views/welcome.view.php';
 	}
 
-    /* Der Shop */
+    /* Der Shop — never lists games the current user already owns. */
 	public function store(){
-
-        $games = new Games();
-
-        // Initialize the session
         session_start();
 
-        /* Alle Spiele */
-        $getAllGames = $games -> getAllGames();
-        $getAllGames = $getAllGames -> fetchAll(); 
-        
-		/* Gekaufte Spiele */
-        $getAllBoughtGames = $games -> getAllBoughtGames();
-        $getAllBoughtGames = $getAllBoughtGames -> fetchAll();
-
-        /* Nicht Gekaufte Spiele */
-        $getAllNotBoughtGames = $games -> getNotBoughtGames();
-        $getAllNotBoughtGames = $getAllNotBoughtGames -> fetchAll();
+        $model = new Games();
+        $games = $model->getStoreGames(currentUserId());
 
 		require 'app/Views/store.view.php';
 	}
 
-    /* Spiele hinzufügen */
+    /* Inline detail data as JSON (consumed by the detail modal + edit form). */
+    public function gameDetail(){
+        session_start();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $id = (int) ($_GET['id'] ?? 0);
+        $model = new Games();
+        $game = $model->getGameDetail($id);
+
+        if (!$game) {
+            http_response_code(404);
+            echo json_encode(['error' => 'not found']);
+            return;
+        }
+
+        $userId = currentUserId();
+        $game['owned']            = $userId ? $model->ownsGame($userId, $id) : false;
+        $game['can_buy']          = isLoggedIn() && !$game['owned'];
+        $game['price_history']    = $model->getPriceHistory($id);
+        $game['buyers_per_price'] = $model->getBuyersPerPrice($id);
+        $game['friends_who_own']  = $userId ? $model->getFriendsWhoOwn($id, $userId) : [];
+        $game['recommendations']  = $model->getRecommendations($id, $userId);
+        $game = $this->maybeEnrichWithRawg($game);
+
+        echo json_encode($game);
+    }
+
+    /* Optional RAWG.io enrichment. Admin-entered data stays the source of truth;
+     * this only augments images/rating. Requires RAWG_API_KEY; no-ops without. */
+    private function maybeEnrichWithRawg(array $game): array
+    {
+        $key = env('RAWG_API_KEY');
+        if (!$key) {
+            return $game;
+        }
+        try {
+            $url = 'https://api.rawg.io/api/games?key=' . urlencode($key)
+                 . '&search=' . urlencode($game['name']) . '&page_size=1';
+            $ctx = stream_context_create(['http' => ['timeout' => 3]]);
+            $json = @file_get_contents($url, false, $ctx);
+            if ($json === false) {
+                return $game;
+            }
+            $data = json_decode($json, true);
+            $r = $data['results'][0] ?? null;
+            if (!$r) {
+                return $game;
+            }
+            $extra = [];
+            if (!empty($r['background_image'])) {
+                $extra[] = $r['background_image'];
+            }
+            foreach (($r['short_screenshots'] ?? []) as $s) {
+                if (!empty($s['image'])) {
+                    $extra[] = $s['image'];
+                }
+            }
+            if ($extra) {
+                $game['images'] = array_values(array_unique(array_merge($game['images'], $extra)));
+            }
+            if (!empty($r['rating'])) {
+                $game['rating'] = $r['rating'];
+            }
+            $game['api_enriched'] = true;
+        } catch (\Throwable $e) {
+            // Ignore — admin data is the source of truth.
+        }
+        return $game;
+    }
+
+    /* Spiele hinzufügen — processed from the inline modal, then back to store. */
     public function addGame(){
-        $games = new Games();
-
-        // Initialize the session
         session_start();
-
-        require 'app/Views/addGame.view.php';
-
-        $title = '';
-        $pdo = connectDatabase();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $entwickler = $_POST['entwickler'];
-            $img = $_POST['img'];
-            $price = $_POST['price'];
-
-            $games->createGame($name, $entwickler, $img, $price);
-
+        if (!isAdmin()) {
             header('Location: store');
+            return;
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model = new Games();
+            $price = post('gratis') === '1' ? 'Gratis' : trim(post('price'));
+            if ($price === '') {
+                $price = 'Gratis';
+            }
+            $images = isset($_POST['images']) && is_array($_POST['images']) ? $_POST['images'] : [];
+            $model->createGameFull(trim(post('name')), trim(post('entwickler')), $price, trim(post('description')), $images);
+        }
+        header('Location: store');
     }
 
-    /* Spiele löschen */
+    /* Spiele löschen (admins only). Images + price history cascade via FK. */
     public function deleteGame(){
-        $games = new Games();
-
-        // Initialize the session
         session_start();
-
-        $id = $_GET['id'];
-
-        $title = '';
-        $pdo = connectDatabase();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $games->removeGame($id);
-        
-        header('Location: store');
-
-        require 'app/Views/store.view.php';
-    }
-
-    /* Spiele bearbeiten */
-    public function editGame(){
-        $games = new Games();
-
-        // Initialize the session
-        session_start();
-        
-        $id = $_GET['id'];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $entwickler = $_POST['entwickler'];
-            $img = $_POST['img'];
-            $price = $_POST['price'];
-
-            $games->changeGame($name, $entwickler, $img, $price, $id);
-
+        if (!isAdmin()) {
             header('Location: store');
-        }else{
-            $statement = $pdo->prepare('SELECT * FROM video_game WHERE id = :id');
-            $statement->bindParam(':id', $id);
-            $statement->execute();
-            $game = $statement->fetchAll();
+            return;
         }
-        require 'app/Views/editGame.view.php';
+        $model = new Games();
+        $model->removeGame((int) ($_GET['id'] ?? 0));
+        header('Location: store');
     }
 
-    /* Spiele kaufen */
-    public function buyGame(){
-        $games = new Games();
-
-        // Initialize the session
+    /* Spiele bearbeiten — processed from the inline modal, then back to store. */
+    public function editGame(){
         session_start();
-
-        $id = $_GET['id'];
-
-        $games->getGame($_SESSION['id'], $id);
-
+        if (!isAdmin()) {
+            header('Location: store');
+            return;
+        }
+        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model = new Games();
+            $price = post('gratis') === '1' ? 'Gratis' : trim(post('price'));
+            if ($price === '') {
+                $price = 'Gratis';
+            }
+            $images = isset($_POST['images']) && is_array($_POST['images']) ? $_POST['images'] : [];
+            $model->updateGameFull($id, trim(post('name')), trim(post('entwickler')), $price, trim(post('description')), $images);
+        }
         header('Location: store');
-    
-        require 'app/Views/store.view.php';
+    }
+
+    /* Spiele kaufen — records the price paid via the saved card (simulated). */
+    public function buyGame(){
+        session_start();
+        if (!isLoggedIn()) {
+            header('Location: login');
+            return;
+        }
+        $id = (int) ($_GET['id'] ?? 0);
+        $model = new Games();
+        if (!$model->ownsGame(currentUserId(), $id)) {
+            $model->purchase(currentUserId(), $id);
+        }
+        header('Location: store');
     }
 
     /* Kontodaten anzeigen */
