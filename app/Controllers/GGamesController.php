@@ -149,7 +149,7 @@ class GGamesController
         header('Location: store');
     }
 
-    /* Spiele kaufen — records the price paid via the saved card (simulated). */
+    /* Spiele kaufen — paid games require a saved card; price paid is recorded. */
     public function buyGame(){
         session_start();
         if (!isLoggedIn()) {
@@ -158,28 +158,81 @@ class GGamesController
         }
         $id = (int) ($_GET['id'] ?? 0);
         $model = new Games();
-        if (!$model->ownsGame(currentUserId(), $id)) {
-            $model->purchase(currentUserId(), $id);
+        $userId = currentUserId();
+
+        if ($model->ownsGame($userId, $id)) {
+            header('Location: store');
+            return;
         }
+
+        $game = $model->getGameDetail($id);
+        if (!$game) {
+            header('Location: store');
+            return;
+        }
+
+        $isGratis = strcasecmp((string) $game['price'], 'Gratis') === 0;
+        if (!$isGratis && empty($model->getCards($userId))) {
+            // Simulated payment needs a saved card for paid games.
+            $_SESSION['flash'] = 'Bitte füge zuerst eine Zahlungskarte hinzu, um kostenpflichtige Spiele zu kaufen.';
+            header('Location: konto');
+            return;
+        }
+
+        $model->purchase($userId, $id);
         header('Location: store');
     }
 
-    /* Kontodaten anzeigen */
+    /* Kontodaten: library, payment cards, friends, account info. */
     public function konto(){
-        $games = new Games();
-
-        // Initialize the session
         session_start();
+        if (!isLoggedIn()) {
+            header('Location: login');
+            return;
+        }
 
-		/* Alle Informationen des Nutzers holen */
-        $konto = $games -> getAllDataFromUser();
-        $konto = $konto -> fetchAll();
+        $model = new Games();
+        $userId = currentUserId();
 
-        /* Spiele gekauft */
-        $kaeufe = $games -> getAllBoughtGames();
-        $kaeufe = $kaeufe -> fetchAll();
+        $user    = $model->getAllDataFromUser()->fetch(PDO::FETCH_ASSOC);
+        $library = $model->getLibrary($userId);
+        $cards   = $model->getCards($userId);
+        $friends = $model->getFriends($userId);
 
 		require 'app/Views/konto.view.php';
+    }
+
+    /* Add a (dummy, unvalidated) payment card. */
+    public function addCard(){
+        session_start();
+        if (!isLoggedIn()) {
+            header('Location: login');
+            return;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model = new Games();
+            $model->addCard(
+                currentUserId(),
+                trim(post('cardholder')),
+                trim(post('number')),
+                trim(post('expiry')),
+                trim(post('brand'))
+            );
+            $_SESSION['flash'] = 'Zahlungskarte gespeichert.';
+        }
+        header('Location: konto');
+    }
+
+    /* Remove a saved payment card. */
+    public function deleteCard(){
+        session_start();
+        if (!isLoggedIn()) {
+            header('Location: login');
+            return;
+        }
+        $model = new Games();
+        $model->deleteCard((int) ($_GET['id'] ?? 0), currentUserId());
+        header('Location: konto');
     }
 
     /* Konto bearbeiten */

@@ -28,6 +28,10 @@ $routes = [
 	/* Konto */
 	'konto' => 'GGamesController@konto',
 	'editKonto' => 'GGamesController@editKonto',
+
+	/* Zahlung (simuliert) */
+	'addCard' => 'GGamesController@addCard',
+	'deleteCard' => 'GGamesController@deleteCard',
 ];
 
 $db = [

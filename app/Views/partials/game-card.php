@@ -56,6 +56,11 @@ $gid = (int) $game['id'];
                     <span class="text-xs text-neutral-500"><i class="far fa-calendar"></i> <?= e(date('d.m.Y', strtotime($game['purchased_at']))) ?></span>
                 <?php endif; ?>
             </div>
+            <div class="mt-3 flex gap-2">
+                <button onclick="GG.openDetail(<?= $gid ?>)" class="btn-ghost flex-1"><i class="fas fa-circle-info"></i> Details</button>
+                <a href="returnGame?id=<?= $gid ?>" class="btn-danger" title="Zurückgeben"
+                   onclick="return confirm('Dieses Spiel wirklich zurückgeben?')"><i class="fas fa-undo"></i></a>
+            </div>
         <?php else: ?>
             <div class="mt-4 flex flex-wrap gap-2">
                 <?php if (isLoggedIn()): ?>
