@@ -39,7 +39,9 @@ $heroGames = array_slice($latest, 0, 5);
                         <div class="mt-3 text-2xl font-bold <?= $gratis ? 'text-brand-green' : 'text-white' ?>"><?= e(formatPrice($g['price'])) ?></div>
                         <div class="mt-4 flex gap-3">
                             <button onclick="GG.openDetail(<?= (int) $g['id'] ?>)" class="btn-ghost"><i class="fas fa-circle-info"></i> Ansehen</button>
-                            <a href="buyGame?id=<?= (int) $g['id'] ?>" class="btn-primary"><i class="fas fa-shopping-bag"></i> <?= $gratis ? 'Holen' : 'Kaufen' ?></a>
+                            <?php if (!isAdmin()): ?>
+                                <a href="buyGame?id=<?= (int) $g['id'] ?>" class="btn-primary"><i class="fas fa-shopping-bag"></i> <?= $gratis ? 'Holen' : 'Kaufen' ?></a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -48,6 +50,8 @@ $heroGames = array_slice($latest, 0, 5);
             <?php if (count($heroGames) > 1): ?>
                 <button data-show-prev class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-3 py-2 text-white hover:bg-black/70"><i class="fas fa-chevron-left"></i></button>
                 <button data-show-next class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-3 py-2 text-white hover:bg-black/70"><i class="fas fa-chevron-right"></i></button>
+                <!-- Pause/play toggle (auto-plays on load) -->
+                <button data-show-toggle title="Pause / Play" class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"><i class="fas fa-pause"></i></button>
                 <div class="absolute bottom-4 right-6 flex items-center gap-1.5">
                     <?php foreach ($heroGames as $k => $g): ?>
                         <button data-show-dot class="h-2 rounded-full transition-all <?= $k === 0 ? 'w-6 bg-brand-orange' : 'w-2 bg-white/40' ?>"></button>

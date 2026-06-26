@@ -63,18 +63,17 @@ $gid = (int) $game['id'];
             </div>
         <?php else: ?>
             <div class="mt-4 flex flex-wrap gap-2">
-                <?php if (isLoggedIn()): ?>
+                <?php if (isAdmin()): ?>
+                    <!-- Admins manage the catalogue and cannot buy games. -->
+                    <button type="button" class="btn-ghost flex-1" title="Bearbeiten" onclick="GG.openEdit(<?= $gid ?>)"><i class="fas fa-edit"></i> Bearbeiten</button>
+                    <a href="deleteGame?id=<?= $gid ?>" class="btn-danger" title="Löschen"
+                       onclick="return confirm('Dieses Spiel wirklich löschen?')"><i class="fas fa-trash-alt"></i></a>
+                <?php elseif (isLoggedIn()): ?>
                     <a href="buyGame?id=<?= $gid ?>" class="btn-primary flex-1" onclick="event.stopPropagation()">
                         <i class="fas fa-shopping-bag"></i> <?= $isGratis ? 'Holen' : 'Kaufen' ?>
                     </a>
                 <?php else: ?>
                     <a href="login" class="btn-primary flex-1"><i class="fas fa-shopping-bag"></i> Kaufen</a>
-                <?php endif; ?>
-
-                <?php if (isAdmin()): ?>
-                    <button type="button" class="btn-ghost" title="Bearbeiten" onclick="GG.openEdit(<?= $gid ?>)"><i class="fas fa-edit"></i></button>
-                    <a href="deleteGame?id=<?= $gid ?>" class="btn-danger" title="Löschen"
-                       onclick="return confirm('Dieses Spiel wirklich löschen?')"><i class="fas fa-trash-alt"></i></a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>

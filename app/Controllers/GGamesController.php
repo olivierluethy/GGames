@@ -45,7 +45,9 @@ class GGamesController
 
         $userId = currentUserId();
         $game['owned']            = $userId ? $model->ownsGame($userId, $id) : false;
-        $game['can_buy']          = isLoggedIn() && !$game['owned'];
+        $game['is_admin']         = isAdmin();
+        // Admins manage the catalogue and cannot buy games.
+        $game['can_buy']          = isLoggedIn() && !isAdmin() && !$game['owned'];
         $game['price_history']    = $model->getPriceHistory($id);
         $game['buyers_per_price'] = $model->getBuyersPerPrice($id);
         $game['friends_who_own']  = $userId ? $model->getFriendsWhoOwn($id, $userId) : [];
@@ -154,6 +156,11 @@ class GGamesController
         session_start();
         if (!isLoggedIn()) {
             header('Location: login');
+            return;
+        }
+        // Admins manage the catalogue and cannot buy games.
+        if (isAdmin()) {
+            header('Location: store');
             return;
         }
         $id = (int) ($_GET['id'] ?? 0);

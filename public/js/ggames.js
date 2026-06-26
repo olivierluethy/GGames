@@ -64,7 +64,8 @@
         var slides = el.querySelectorAll('[data-show-slide]');
         var dots = el.querySelectorAll('[data-show-dot]');
         if (slides.length === 0) return;
-        var i = 0, timer = null;
+        var i = 0, timer = null, playing = false;
+        var toggle = el.querySelector('[data-show-toggle]');
 
         function show(n) {
             i = (n + slides.length) % slides.length;
@@ -80,15 +81,21 @@
             });
         }
         function next() { show(i + 1); }
-        function start() { stop(); if (slides.length > 1) timer = setInterval(next, 4500); }
-        function stop() { if (timer) { clearInterval(timer); timer = null; } }
+        function render() {
+            if (toggle) toggle.innerHTML = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        }
+        function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+        function play() { if (slides.length < 2) { render(); return; } stopTimer(); timer = setInterval(next, 4500); playing = true; render(); }
+        function pause() { stopTimer(); playing = false; render(); }
 
-        el.querySelectorAll('[data-show-next]').forEach(function (b) { b.addEventListener('click', function () { next(); start(); }); });
-        el.querySelectorAll('[data-show-prev]').forEach(function (b) { b.addEventListener('click', function () { show(i - 1); start(); }); });
-        dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); start(); }); });
-        el.addEventListener('mouseenter', stop);
-        el.addEventListener('mouseleave', start);
-        show(0); start();
+        // Arrows + dots navigate without interrupting auto-play.
+        el.querySelectorAll('[data-show-next]').forEach(function (b) { b.addEventListener('click', next); });
+        el.querySelectorAll('[data-show-prev]').forEach(function (b) { b.addEventListener('click', function () { show(i - 1); }); });
+        dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); }); });
+        if (toggle) toggle.addEventListener('click', function () { playing ? pause() : play(); });
+
+        show(0);
+        play(); // auto-start on load
     }
     function initAllShowcases(root) {
         (root || document).querySelectorAll('[data-showcase]').forEach(initShowcase);
@@ -109,7 +116,11 @@
     }
     document.addEventListener('click', function (e) {
         var c = e.target.closest('[data-close-modal]');
-        if (c) { closeModal(c.getAttribute('data-close-modal')); }
+        if (c) { closeModal(c.getAttribute('data-close-modal')); return; }
+        // Click on the dimmed backdrop (outside the dialog) closes the modal.
+        if (e.target.classList && e.target.classList.contains('gg-modal')) {
+            closeModal(e.target.id);
+        }
     });
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
@@ -152,6 +163,8 @@
                 (String(g.price).toLowerCase() === 'gratis' ? 'Holen' : 'Jetzt kaufen') + '</a>';
         } else if (g.owned) {
             buyBtn = '<span class="btn-green cursor-default"><i class="fas fa-check"></i> Gekauft</span>';
+        } else if (g.is_admin) {
+            buyBtn = '<button onclick="GG.openEdit(' + g.id + ')" class="btn-ghost"><i class="fas fa-edit"></i> Bearbeiten</button>';
         } else {
             buyBtn = '<a href="login" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Zum Kauf anmelden</a>';
         }
