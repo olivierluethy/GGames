@@ -34,11 +34,5 @@ $routes = [
 	'deleteCard' => 'GGamesController@deleteCard',
 ];
 
-$db = [
-	'name'     => 'ggames',
-	'username' => 'root',
-	'password' => '',
-];
-
 $router = new Router($routes);
 $router->run($_GET['url'] ?? '');

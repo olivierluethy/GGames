@@ -75,32 +75,18 @@ function formatPrice($price): string
 }
 
 /**
- * Stellt eine Verbindung zur Datenbank her und gibt die
- * Datenbankverbindung als PDO zurück.
+ * THE single source of truth for database credentials.
+ *
+ * Every connection (PDO and mysqli) reads its settings from here, so to point
+ * the app at a different database you only change this one place (or override
+ * via the DB_* environment variables, e.g. in docker-compose.yml).
  */
-$dbInstance = null;
-
-function db(): PDO
+function dbConfig(): array
 {
-    global $dbInstance;
-
-    if ($dbInstance) {
-        return $dbInstance;
-    }
-
-    $host = env('DB_HOST', '127.0.0.1');
-    $name = env('DB_NAME', 'ggames');
-    $user = env('DB_USER', 'root');
-    $pass = env('DB_PASS', '');
-
-    try {
-        $dbInstance = new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass, [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-        ]);
-
-        return $dbInstance;
-    } catch (PDOException $e) {
-        die('Keine Verbindung zur Datenbank möglich: ' . $e->getMessage());
-    }
+    return [
+        'host' => env('DB_HOST', '127.0.0.1'),
+        'name' => env('DB_NAME', 'ggames'),
+        'user' => env('DB_USER', 'root'),
+        'pass' => env('DB_PASS', ''),
+    ];
 }
