@@ -95,96 +95,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php $title = 'GGAMES - Registrieren'; include __DIR__ . '/partials/head.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <title>GGames - Sign Up</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="shortcut icon" href="assets/shortcut2.jpg">
-    <meta name="author" content="Olivier Luethy">
-    <style>
-    @keyframes bgcolor {
-        0% {
-            background-color: #45a3e5;
-        }
+<div class="flex min-h-screen items-center justify-center px-4 py-10">
+    <div class="w-full max-w-md">
+        <a href="home" class="mb-8 block text-center font-display text-3xl tracking-wider">
+            <span class="text-brand-orange">G</span><span class="text-brand-green">G</span><span class="text-white">AMES</span>
+        </a>
 
-        30% {
-            background-color: #66bf39;
-        }
+        <div class="card p-8">
+            <h2 class="font-display text-2xl text-white">Konto erstellen</h2>
+            <p class="mt-1 text-sm text-neutral-400">Fülle das Formular aus, um loszulegen.</p>
 
-        60% {
-            background-color: #eb670f;
-        }
+            <form action="register" method="post" class="mt-6 space-y-4">
+                <div>
+                    <label class="label">Email</label>
+                    <input type="text" name="email" class="input" value="<?= e($email) ?>" autofocus>
+                    <?php if (!empty($email_err)): ?><p class="mt-1 text-sm font-semibold text-red-400"><?= e($email_err) ?></p><?php endif; ?>
+                </div>
+                <div>
+                    <label class="label">Passwort</label>
+                    <input type="password" name="password" class="input" value="<?= e($password) ?>">
+                    <?php if (!empty($password_err)): ?><p class="mt-1 text-sm font-semibold text-red-400"><?= e($password_err) ?></p><?php endif; ?>
+                </div>
+                <div>
+                    <label class="label">Passwort bestätigen</label>
+                    <input type="password" name="confirm_password" class="input" value="<?= e($confirm_password) ?>">
+                    <?php if (!empty($confirm_password_err)): ?><p class="mt-1 text-sm font-semibold text-red-400"><?= e($confirm_password_err) ?></p><?php endif; ?>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-primary flex-1"><i class="fas fa-user-plus"></i> Registrieren</button>
+                    <button type="reset" class="btn-ghost">Zurücksetzen</button>
+                </div>
+            </form>
 
-        90% {
-            background-color: #f35;
-        }
-
-        100% {
-            background-color: #864cbf;
-        }
-    }
-
-    body {
-        -webkit-animation: bgcolor 20s infinite;
-        animation: bgcolor 10s infinite;
-        -webkit-animation-direction: alternate;
-        animation-direction: alternate;
-    }
-
-    .wrapper {
-        width: 350px;
-        padding: 20px;
-        border: 2px solid hsl(197, 100%, 23%);
-        border-radius: 10px;
-        box-shadow: 2px 3px 5px gray;
-        background-color: white;
-        position: block;
-        margin-top: 11rem;
-        margin-left: auto;
-        margin-right: auto;
-        font: 14px sans-serif;
-    }
-    </style>
-</head>
-
-<body>
-    <div class="wrapper">
-        <h2>Sign Up</h2>
-        <p>Please fill this form to create an account.</p>
-        <form action="register" method="post">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" name="email"
-                    class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>"
-                    value="<?php echo $email; ?>">
-                <span class="invalid-feedback"><?php echo $email_err; ?></span>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password"
-                    class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>"
-                    value="<?php echo $password; ?>">
-                <span class="invalid-feedback"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password"
-                    class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>"
-                    value="<?php echo $confirm_password; ?>">
-                <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="reset" class="btn btn-secondary ml-2" value="Reset">
-            </div>
-            <p>Already have an account? <a href="login">Login here</a>.</p>
-        </form>
+            <p class="mt-4 text-center text-sm text-neutral-400">
+                Bereits ein Konto? <a href="login" class="font-semibold text-brand-orange hover:underline">Hier einloggen</a>.
+            </p>
+        </div>
     </div>
-</body>
+</div>
 
-</html>
+<?php include __DIR__ . '/partials/foot.php'; ?>

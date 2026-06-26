@@ -88,71 +88,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php $title = 'GGAMES - Login'; include __DIR__ . '/partials/head.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <title>GGames - Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="shortcut icon" href="assets/shortcut2.jpg">
-    <meta name="author" content="Olivier Luethy">
-    <link rel="stylesheet" href="public/style/login.css">
-</head>
+<div class="flex min-h-screen items-center justify-center px-4 py-10">
+    <div class="w-full max-w-md">
+        <a href="home" class="mb-8 block text-center font-display text-3xl tracking-wider">
+            <span class="text-brand-orange">G</span><span class="text-brand-green">G</span><span class="text-white">AMES</span>
+        </a>
 
-<body>
-    <div class="wrapper">
+        <div class="card p-8">
+            <h2 class="font-display text-2xl text-white">Login</h2>
+            <p class="mt-1 text-sm text-neutral-400">Melde dich mit deinen Zugangsdaten an.</p>
 
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
-        <form action="login" method="post">
-            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <label>Email</label>
-                <input type="text" name="email" class="form-control">
-                <span style='color: red; font-weight:bold;' ; class="help-block"><?php echo $email_err; ?></span>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control">
-                <span style='color: red; font-weight:bold;' ; class="help-block"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
-            </div>
-            <p>Don't have an account? <a href="register">Sign up now</a>.</p>
-        </form>
+            <form action="login" method="post" class="mt-6 space-y-4">
+                <div>
+                    <label class="label">Email</label>
+                    <input type="text" name="email" class="input" autofocus>
+                    <?php if (!empty($email_err)): ?><p class="mt-1 text-sm font-semibold text-red-400"><?= e($email_err) ?></p><?php endif; ?>
+                </div>
+                <div>
+                    <label class="label">Passwort</label>
+                    <input type="password" name="password" class="input">
+                    <?php if (!empty($password_err)): ?><p class="mt-1 text-sm font-semibold text-red-400"><?= e($password_err) ?></p><?php endif; ?>
+                </div>
+                <button type="submit" class="btn-primary w-full"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+
+            <p class="mt-4 text-center text-sm text-neutral-400">
+                Noch kein Konto? <a href="register" class="font-semibold text-brand-orange hover:underline">Jetzt registrieren</a>.
+            </p>
+        </div>
 
         <?php if (env('QUICK_LOGIN')): ?>
-        <?php
-            // Dev-only one-click logins. Each button submits a seeded account
-            // through the normal login flow. Every seeded user's password is "password".
-            $quickUsers = [
-                ['email' => 'olivier@ggames.test', 'label' => 'Admin: Olivier'],
-                ['email' => 'sarah@ggames.test',   'label' => 'Admin: Sarah'],
-                ['email' => 'max@ggames.test',     'label' => 'User: Max'],
-                ['email' => 'lena@ggames.test',    'label' => 'User: Lena'],
-                ['email' => 'jonas@ggames.test',   'label' => 'User: Jonas (no games)'],
-                ['email' => 'mia@ggames.test',     'label' => 'User: Mia (owns all)'],
-            ];
-        ?>
-        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #ddd;">
-            <p style="font-weight: bold; margin-bottom: 8px;">Quick login (dev)</p>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <?php foreach ($quickUsers as $quickUser): ?>
-                <form action="login" method="post" style="margin: 0;">
-                    <input type="hidden" name="email" value="<?php echo e($quickUser['email']); ?>">
-                    <input type="hidden" name="password" value="password">
-                    <button type="submit" class="btn btn-default" style="width: 100%; text-align: left;">
-                        <i class="fas fa-bolt"></i> <?php echo e($quickUser['label']); ?>
-                    </button>
-                </form>
-                <?php endforeach; ?>
+            <?php
+                // Dev-only one-click logins. Each button submits a seeded account
+                // through the normal login flow. Every seeded user's password is "password".
+                $quickUsers = [
+                    ['email' => 'olivier@ggames.test', 'label' => 'Olivier', 'role' => 'Admin'],
+                    ['email' => 'sarah@ggames.test',   'label' => 'Sarah',   'role' => 'Admin'],
+                    ['email' => 'max@ggames.test',     'label' => 'Max',     'role' => 'User'],
+                    ['email' => 'lena@ggames.test',    'label' => 'Lena',    'role' => 'User'],
+                    ['email' => 'jonas@ggames.test',   'label' => 'Jonas',   'role' => 'User · keine Spiele'],
+                    ['email' => 'mia@ggames.test',     'label' => 'Mia',     'role' => 'User · besitzt alle'],
+                ];
+            ?>
+            <div class="card mt-5 p-5">
+                <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-neutral-300"><i class="fas fa-bolt text-brand-orange"></i> Quick Login (Dev)</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <?php foreach ($quickUsers as $quickUser): ?>
+                        <form action="login" method="post">
+                            <input type="hidden" name="email" value="<?= e($quickUser['email']) ?>">
+                            <input type="hidden" name="password" value="password">
+                            <button type="submit" class="btn-ghost w-full justify-start text-left">
+                                <i class="fas fa-user <?= $quickUser['role'] === 'Admin' ? 'text-brand-orange' : 'text-brand-green' ?>"></i>
+                                <span class="truncate"><?= e($quickUser['label']) ?> <span class="text-xs text-neutral-500"><?= e($quickUser['role']) ?></span></span>
+                            </button>
+                        </form>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
         <?php endif; ?>
     </div>
-</body>
+</div>
 
-</html>
+<?php include __DIR__ . '/partials/foot.php'; ?>
