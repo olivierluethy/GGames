@@ -57,6 +57,43 @@
         (root || document).querySelectorAll('[data-carousel]').forEach(initCarousel);
     }
 
+    /* ---------- hero showcase (always-on auto-rotation) ---------- */
+    function initShowcase(el) {
+        if (!el || el.dataset.showReady) return;
+        el.dataset.showReady = '1';
+        var slides = el.querySelectorAll('[data-show-slide]');
+        var dots = el.querySelectorAll('[data-show-dot]');
+        if (slides.length === 0) return;
+        var i = 0, timer = null;
+
+        function show(n) {
+            i = (n + slides.length) % slides.length;
+            slides.forEach(function (s, k) {
+                s.classList.toggle('opacity-0', k !== i);
+                s.classList.toggle('pointer-events-none', k !== i);
+            });
+            dots.forEach(function (d, k) {
+                d.classList.toggle('w-6', k === i);
+                d.classList.toggle('bg-brand-orange', k === i);
+                d.classList.toggle('w-2', k !== i);
+                d.classList.toggle('bg-white/40', k !== i);
+            });
+        }
+        function next() { show(i + 1); }
+        function start() { stop(); if (slides.length > 1) timer = setInterval(next, 4500); }
+        function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+        el.querySelectorAll('[data-show-next]').forEach(function (b) { b.addEventListener('click', function () { next(); start(); }); });
+        el.querySelectorAll('[data-show-prev]').forEach(function (b) { b.addEventListener('click', function () { show(i - 1); start(); }); });
+        dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); start(); }); });
+        el.addEventListener('mouseenter', stop);
+        el.addEventListener('mouseleave', start);
+        show(0); start();
+    }
+    function initAllShowcases(root) {
+        (root || document).querySelectorAll('[data-showcase]').forEach(initShowcase);
+    }
+
     /* ---------- modals ---------- */
     function openModal(id) {
         var m = document.getElementById(id);
@@ -271,6 +308,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         initAllCarousels(document);
+        initAllShowcases(document);
         var add = document.getElementById('addImageBtn');
         if (add) add.addEventListener('click', function () { addImageInput(''); });
     });

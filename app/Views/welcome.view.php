@@ -1,69 +1,60 @@
-<!DOCTYPE html>
-<html lang="de">
+<?php
+/** Public landing page (guests only — logged-in users get home.view.php). */
+$title = 'GGAMES - Welcome';
+$active = 'home';
+include __DIR__ . '/partials/head.php';
+include __DIR__ . '/partials/nav.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <title>GGames - Welcome</title>
-    <link rel="stylesheet" href="public/style/navigation.css">
-    <link rel="stylesheet" href="public/style/general.css">
-    <link rel="stylesheet" href="public/style/welcome.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="shortcut icon" href="assets/favicon.ico">
-
-    <!-- Font Family -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="title">
-            <a href="home">
-                <h1>G</h1>
-                <h1>G</h1>
-                <h1>A</h1>
-                <h1>M</h1>
-                <h1>E</h1>
-                <h1>S</h1>
-            </a>
-        </div>
-
-        <div class="anchors">
-            <a class="anchors_a_active" href="home">Home</a>
-            <a class="anchors_a" href="store">Shop</a>
-            <?php
-                include("nav.view.php");
-            ?>
-        </div>
-    </nav>
-
-    <!-- Parallax Scroll -->
-    <section class='parallax-image'>
-        <img src='assets/welcome.jpg' />
-        <h1>Welcome to GGAMES!</h1>
-    </section>
-
-    <main>
-        <h1>About Us</h1>
-        <p>GGames is a new founded game store with a lot of new games. We don't make a lot of revenue at this time, but
-            we hompe, that we will grow and grow more every year. Our dream is to be once one of the biggest video game
-            seller in the world. Maybe it will happen or maybe not. But at this time, we aren't so far away ;)
-            Enjoy the visit of this webpage!
+<!-- Hero -->
+<section class="relative h-[70vh] min-h-[420px] w-full overflow-hidden">
+    <img src="assets/welcome.jpg" alt="" class="absolute inset-0 h-full w-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950/30"></div>
+    <div class="relative mx-auto flex h-full max-w-7xl flex-col items-start justify-center px-4">
+        <span class="chip bg-brand-orange/20 text-brand-orange"><i class="fas fa-gamepad"></i> Dein Game Store</span>
+        <h1 class="mt-4 font-display text-5xl text-white drop-shadow-lg sm:text-6xl">
+            Welcome to <span class="text-brand-orange">G</span><span class="text-brand-green">G</span>AMES!
+        </h1>
+        <p class="mt-4 max-w-xl text-lg text-neutral-300">
+            Entdecke, kaufe und sammle deine Lieblingsspiele – ein Store, gebaut von Gamern für Gamer.
         </p>
-        <h1>What We Do</h1>
-        <p>We sell at this time a lot of different video games in all kind of categories. From kids up to adults. The
-            special thing of our website is, that our games that we sell are much different as on steam, epic games or
-            blizzard.
-            We sell games which will have a big future and we don't roast them. We keep them and develop up, so that
-            they can be better than others.
-        </p>
-    </main>
+        <div class="mt-8 flex flex-wrap gap-3">
+            <a href="store" class="btn-primary px-6 py-3 text-base"><i class="fas fa-store"></i> Zum Shop</a>
+            <a href="register" class="btn-green px-6 py-3 text-base"><i class="fas fa-user-plus"></i> Konto erstellen</a>
+        </div>
+    </div>
+</section>
 
+<!-- About -->
+<main class="mx-auto max-w-5xl px-4 py-16">
+    <div class="grid gap-6 md:grid-cols-2">
+        <div class="card p-6">
+            <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-orange/15 text-brand-orange">
+                <i class="fas fa-users text-xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-white">About Us</h2>
+            <p class="mt-2 leading-relaxed text-neutral-400">
+                GGames ist ein junger Game Store mit vielen neuen Spielen. Unser Traum ist es, eines Tages
+                einer der größten Videospiel-Anbieter der Welt zu werden. Viel Spaß beim Stöbern!
+            </p>
+        </div>
+        <div class="card p-6">
+            <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-green/15 text-brand-green">
+                <i class="fas fa-rocket text-xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-white">What We Do</h2>
+            <p class="mt-2 leading-relaxed text-neutral-400">
+                Wir verkaufen Spiele aus allen Kategorien – von Kids bis Erwachsene. Das Besondere: Wir setzen
+                auf Titel mit großer Zukunft und entwickeln sie weiter, statt sie fallen zu lassen.
+            </p>
+        </div>
+    </div>
 
-    <script src="public/js/app.js"></script>
-</body>
+    <div class="mt-12 rounded-2xl border border-neutral-800 bg-gradient-to-r from-brand-orange/10 to-brand-green/10 p-8 text-center">
+        <h3 class="font-display text-2xl text-white">Bereit zum Spielen?</h3>
+        <p class="mt-2 text-neutral-300">Erstelle ein Konto und baue deine Sammlung auf.</p>
+        <a href="register" class="btn-primary mt-5 px-6 py-3 text-base"><i class="fas fa-user-plus"></i> Jetzt loslegen</a>
+    </div>
+</main>
 
-</html>
+<?php include __DIR__ . '/partials/foot.php'; ?>

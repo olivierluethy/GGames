@@ -2,11 +2,19 @@
 
 class GGamesController
 {
-    /* Die Welcome Seite oder Startseite */
+    /* Startseite: hero/landing for guests, store-style home for logged-in users. */
 	public function index()
-	{	
+	{
 		session_start();
-		
+
+		if (isLoggedIn()) {
+			$model = new Games();
+			$latest = $model->getStoreGames(currentUserId()); // newest first, excludes owned
+			$popularByDev = $model->getPopularByDeveloper();
+			require 'app/Views/home.view.php';
+			return;
+		}
+
 		require 'app/Views/welcome.view.php';
 	}
 
