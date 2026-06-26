@@ -76,7 +76,7 @@ docker compose up -d --build
 
 Then open:
 
-> **http://localhost:8090/GGames/**
+> **http://localhost:8090/**
 
 The first start automatically creates the database, schema and mock data
 (see [`docker/mysql/init`](docker/mysql/init)).
@@ -93,7 +93,7 @@ Host ports (change in `docker-compose.yml` if they clash):
 
 | Service        | URL / Port                                  |
 | -------------- | ------------------------------------------- |
-| Web app        | http://localhost:8090/GGames/               |
+| Web app        | http://localhost:8090/                      |
 | MySQL database | `localhost:3316` (user / pass / db: `ggames`) |
 
 ### Environment variables
@@ -112,10 +112,11 @@ defaults as fallback):
 
 ### Run under XAMPP (classic)
 
-Place the project at `htdocs/GGames`, import the schema and seed from
-[`docker/mysql/init`](docker/mysql/init) (or run the files in [`migrations/`](migrations)),
-and open `http://localhost/GGames/`. With no env vars set, the DB connection falls back to
-`localhost` / `root` / no password / database `ggames`.
+Point a vhost's document root at the project directory, import the schema and seed
+from [`docker/mysql/init`](docker/mysql/init) (or run the files in [`migrations/`](migrations)),
+and open the app at the document root (e.g. `http://localhost/`). With no env vars set,
+the DB connection falls back to `127.0.0.1` / `root` / no password / database `ggames`
+(all defined in one place — `dbConfig()` in `core/helpers.php`).
 
 ## Roles & Test Accounts
 
@@ -142,7 +143,7 @@ and **User**. All seeded accounts use the password **`password`**. On the login 
 - **Frontend:** **Tailwind CSS** (Play CDN, dark mode only, orange + green brand theme) with
   shared PHP layout partials. Interactions (carousels, modals, inline detail, image previews,
   price chart) are dependency-free vanilla JS in `public/js/ggames.js`.
-- **Infra:** Docker Compose runs `web` (php:8.2-apache, served under `/GGames/`) and `db`
+- **Infra:** Docker Compose runs `web` (php:8.2-apache, served at the web root) and `db`
   (mysql:8). The DB auto-seeds on first run.
 
 Request flow: `index.php` (routes) → `core/bootstrap.php` (helpers, router, DB, model) →
@@ -154,12 +155,12 @@ partials. The inline detail modal and the admin edit form are populated from the
 
 ```
 GGames/
-├── index.php                      # Front controller: route table + DB config
+├── index.php                      # Front controller: route table
 ├── core/
 │   ├── bootstrap.php               # Requires helpers, router, db, model
 │   ├── Router.php                  # URL -> Controller@method dispatch
 │   ├── database.php                # PDO connection (env-configurable)
-│   └── helpers.php                 # e(), env(), isLoggedIn(), isAdmin(), formatPrice(), ...
+│   └── helpers.php                 # e(), env(), dbConfig() (single DB-credentials source), isLoggedIn(), isAdmin(), ...
 ├── app/
 │   ├── Controllers/GGamesController.php   # All actions (store, gameDetail, CRUD, buy, konto, cards, auth)
 │   ├── Models/Games.php                   # Data access (images, prices, library, social, payments)

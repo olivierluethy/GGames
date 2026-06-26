@@ -14,7 +14,7 @@ services:
       QUICK_LOGIN: "1"
     volumes:
       # Live-mount the source so code changes show up without rebuilding.
-      - .:/var/www/html/GGames
+      - .:/var/www/html
     depends_on:
       db:
         condition: service_healthy

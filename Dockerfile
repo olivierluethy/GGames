@@ -12,9 +12,8 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-ggames.ini
 RUN a2enmod rewrite \
     && sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-# The app uses absolute redirects to http://localhost/GGames/...,
-# so it must be served from the /GGames/ sub-path.
-COPY . /var/www/html/GGames/
+# Serve the app from the web root (no project name in the URL).
+COPY . /var/www/html/
 
 RUN chown -R www-data:www-data /var/www/html
 
