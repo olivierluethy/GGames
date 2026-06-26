@@ -34,6 +34,47 @@ function env(string $key, $default = null)
 }
 
 /**
+ * Returns true if a user is currently logged in.
+ */
+function isLoggedIn(): bool
+{
+    return isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+}
+
+/**
+ * Returns true if the logged-in user is an admin (istAdmin flag).
+ */
+function isAdmin(): bool
+{
+    return isLoggedIn() && isset($_SESSION['istAdmin']) && (string) $_SESSION['istAdmin'] === '1';
+}
+
+/**
+ * Returns the current user's id, or null when logged out.
+ */
+function currentUserId(): ?int
+{
+    return isset($_SESSION['id']) ? (int) $_SESSION['id'] : null;
+}
+
+/**
+ * Formats a price the way the store expects it: the literal string
+ * "Gratis" stays as-is, numeric values are rendered as "X.XX CHF".
+ */
+function formatPrice($price): string
+{
+    if ($price === null || $price === '' || strcasecmp((string) $price, 'Gratis') === 0) {
+        return 'Gratis';
+    }
+
+    if (is_numeric($price)) {
+        return number_format((float) $price, 2) . ' CHF';
+    }
+
+    return (string) $price;
+}
+
+/**
  * Stellt eine Verbindung zur Datenbank her und gibt die
  * Datenbankverbindung als PDO zurück.
  */
