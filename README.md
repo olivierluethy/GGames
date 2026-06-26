@@ -62,3 +62,60 @@ It took me a long time to program everything perfectly. About 1 to 2 weeks. When
    ```sh
    git clone https://github.com/Oli7000/GGames.git
    ```
+
+## Run with Docker (recommended)
+
+The whole stack (PHP/Apache web server **and** a MySQL database, pre-filled
+with mock data) runs with a single command. The only prerequisite is
+[Docker](https://docs.docker.com/get-docker/) with Docker Compose. This works
+the same on Ubuntu, macOS or Windows.
+
+```sh
+# from the project root
+docker compose up -d --build
+```
+
+Then open the app at:
+
+> **http://localhost:8090/GGames/**
+
+The first start automatically creates the database, the schema and a set of
+mock games and users (see [docker/mysql/init](docker/mysql/init)).
+
+Useful commands:
+
+```sh
+docker compose logs -f          # view logs
+docker compose down             # stop the stack (keeps the database)
+docker compose down -v          # stop and wipe the database (re-seeds on next start)
+```
+
+Ports used on the host (change them in `docker-compose.yml` if they clash):
+
+| Service        | URL / Port                         |
+| -------------- | ---------------------------------- |
+| Web app        | http://localhost:8090/GGames/      |
+| MySQL database | `localhost:3316` (user/pass/db: `ggames`) |
+
+### Test accounts & quick login
+
+All seeded accounts use the password **`password`**. On the login page a
+**"Quick login (dev)"** panel lets you log in as any of them with a single
+click (it is shown only while the `QUICK_LOGIN` env var is set in
+`docker-compose.yml`).
+
+| Email                  | Role  | Notes                       |
+| ---------------------- | ----- | --------------------------- |
+| `olivier@ggames.test`  | Admin | Owns a few games            |
+| `sarah@ggames.test`    | Admin | Owns a couple of games      |
+| `max@ggames.test`      | User  | Owns a few games            |
+| `lena@ggames.test`     | User  | Owns one game               |
+| `jonas@ggames.test`    | User  | Empty library (edge case)   |
+| `mia@ggames.test`      | User  | Owns every game             |
+
+Admins additionally see the **Add / Edit / Delete game** controls in the store.
+
+> The app also still runs the classic way under XAMPP at
+> `http://localhost/GGames/` — the database settings fall back to
+> `localhost` / `root` / no password / db `ggames` when no environment
+> variables are present.

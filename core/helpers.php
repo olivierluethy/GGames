@@ -18,6 +18,22 @@ function post(string $key, $default = '')
 }
 
 /**
+ * Liest einen Wert aus der Umgebung (Environment) und gibt
+ * andernfalls den Standardwert zurück. So lässt sich die App
+ * sowohl lokal (XAMPP) als auch in Docker konfigurieren.
+ */
+function env(string $key, $default = null)
+{
+    $value = getenv($key);
+
+    if ($value === false) {
+        $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
+    }
+
+    return $value === false ? $default : $value;
+}
+
+/**
  * Stellt eine Verbindung zur Datenbank her und gibt die
  * Datenbankverbindung als PDO zurück.
  */
@@ -31,11 +47,18 @@ function db(): PDO
         return $dbInstance;
     }
 
+    $host = env('DB_HOST', '127.0.0.1');
+    $name = env('DB_NAME', 'ggames');
+    $user = env('DB_USER', 'root');
+    $pass = env('DB_PASS', '');
+
     try {
-        $dbInstance = new PDO('mysql:host=127.0.0.1;dbname=' . $db['name'], $db['username'], $db['password'], [
+        $dbInstance = new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass, [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         ]);
+
+        return $dbInstance;
     } catch (PDOException $e) {
         die('Keine Verbindung zur Datenbank möglich: ' . $e->getMessage());
     }

@@ -53,7 +53,7 @@ class GGamesController
 
             $games->createGame($name, $entwickler, $img, $price);
 
-            header('Location: http://localhost/GGames/store');
+            header('Location: store');
         }
     }
 
@@ -72,7 +72,7 @@ class GGamesController
 
         $games->removeGame($id);
         
-        header('Location: http://localhost/GGames/store');
+        header('Location: store');
 
         require 'app/Views/store.view.php';
     }
@@ -94,7 +94,7 @@ class GGamesController
 
             $games->changeGame($name, $entwickler, $img, $price, $id);
 
-            header('Location: http://localhost/GGames/store');
+            header('Location: store');
         }else{
             $statement = $pdo->prepare('SELECT * FROM video_game WHERE id = :id');
             $statement->bindParam(':id', $id);
@@ -115,7 +115,7 @@ class GGamesController
 
         $games->getGame($_SESSION['id'], $id);
 
-        header('Location: http://localhost/GGames/store');
+        header('Location: store');
     
         require 'app/Views/store.view.php';
     }
@@ -159,10 +159,10 @@ class GGamesController
 
             if (password_verify($passwort, $password[0][0])) {
                 $games->changeKonto($email, $username, $id);
-                header('Location: http://localhost/GGames/logout');
+                header('Location: logout');
             } else {
                 echo 'Invalid password.';
-                header('Location: http://localhost/GGames/');
+                header('Location: home');
             }
         }else{
 
@@ -183,7 +183,7 @@ class GGamesController
 
         $games->returnGame($id, $_SESSION["id"]);
 
-        header('Location: http://localhost/GGames/konto');
+        header('Location: konto');
     }
 
     /* Login Page */

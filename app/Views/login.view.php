@@ -55,10 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     mysqli_stmt_bind_result($stmt, $id, $email, $username, $istAdmin, $hashed_password);
                     if (mysqli_stmt_fetch($stmt)) {
                         if (password_verify($password, $hashed_password)) {
-                            // Password is correct, so start a new session
-                            session_start();
-
-                            // Store data in session variables
+                            // The session was already started at the top of this
+                            // file, so we just store the data in session variables.
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["email"] = $email;
@@ -125,6 +123,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <p>Don't have an account? <a href="register">Sign up now</a>.</p>
         </form>
+
+        <?php if (env('QUICK_LOGIN')): ?>
+        <?php
+            // Dev-only one-click logins. Each button submits a seeded account
+            // through the normal login flow. Every seeded user's password is "password".
+            $quickUsers = [
+                ['email' => 'olivier@ggames.test', 'label' => 'Admin: Olivier'],
+                ['email' => 'sarah@ggames.test',   'label' => 'Admin: Sarah'],
+                ['email' => 'max@ggames.test',     'label' => 'User: Max'],
+                ['email' => 'lena@ggames.test',    'label' => 'User: Lena'],
+                ['email' => 'jonas@ggames.test',   'label' => 'User: Jonas (no games)'],
+                ['email' => 'mia@ggames.test',     'label' => 'User: Mia (owns all)'],
+            ];
+        ?>
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #ddd;">
+            <p style="font-weight: bold; margin-bottom: 8px;">Quick login (dev)</p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <?php foreach ($quickUsers as $quickUser): ?>
+                <form action="login" method="post" style="margin: 0;">
+                    <input type="hidden" name="email" value="<?php echo e($quickUser['email']); ?>">
+                    <input type="hidden" name="password" value="password">
+                    <button type="submit" class="btn btn-default" style="width: 100%; text-align: left;">
+                        <i class="fas fa-bolt"></i> <?php echo e($quickUser['label']); ?>
+                    </button>
+                </form>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </body>
 

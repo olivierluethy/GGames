@@ -1,0 +1,46 @@
+services:
+  web:
+    build: .
+    container_name: ggames-web
+    ports:
+      - "8090:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: ggames
+      DB_USER: ggames
+      DB_PASS: ggames
+      # Enables the one-click quick-login dev panel on the login page.
+      # Set to 0 (or remove) to hide it.
+      QUICK_LOGIN: "1"
+    volumes:
+      # Live-mount the source so code changes show up without rebuilding.
+      - .:/var/www/html/GGames
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: ggames-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ggames
+      MYSQL_USER: ggames
+      MYSQL_PASSWORD: ggames
+    volumes:
+      - db_data:/var/lib/mysql
+      # Runs only on first init (empty data volume): schema + mock data.
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      # Host 3316 -> container 3306 (3306 is often taken by a local MySQL).
+      - "3316:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_data:
