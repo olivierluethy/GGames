@@ -6,6 +6,7 @@
 --
 -- Apply to an existing database with:
 --   docker exec -i ggames-db mysql -uroot -proot ggames < migrations/001_game_meta_and_price_history.sql
+SET NAMES utf8mb4;
 USE ggames;
 
 ALTER TABLE video_game

@@ -1,5 +1,6 @@
 -- GGames mock data (runs automatically on first DB init).
 -- Every seeded user has the password: password
+SET NAMES utf8mb4;
 USE ggames;
 
 -- ---------------------------------------------------------------------------

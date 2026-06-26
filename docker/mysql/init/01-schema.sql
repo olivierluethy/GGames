@@ -2,6 +2,7 @@
 -- This is the consolidated final schema. For upgrading an existing database,
 -- see the incremental files in /migrations.
 -- The `ggames` database itself is created by the MYSQL_DATABASE env var.
+SET NAMES utf8mb4;
 USE ggames;
 
 CREATE TABLE IF NOT EXISTS users (

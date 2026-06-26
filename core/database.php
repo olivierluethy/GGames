@@ -7,7 +7,7 @@ function connectDatabase() {
     $pass = env('DB_PASS', '');
 
     try {
-        return new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass);
+        return new PDO('mysql:host=' . $host . ';dbname=' . $name . ';charset=utf8mb4', $user, $pass);
     } catch (PDOException $e) {
         die('Keine Verbindung zur Datenbank möglich: ' . $e->getMessage());
     }
